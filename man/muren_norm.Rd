@@ -9,12 +9,13 @@ muren_norm(reads, refs = 'saturated', single_param = TRUE,
   pairwise_method = 'lts', maxiter = 70, workers = 2, ...)
 }
 \arguments{
-\item{reads}{data.frame or matrix. A tabular counts of gene/transcript}
+\item{reads}{data.frame or matrix. A tabular counts of gene/transcript X sample}
 
-\item{refs}{name characters or integers of sample orders of reference samples.
+\item{refs}{reference samples by name characters or integers of sample orders.
 Or, 'saturated' selects all samples as references.}
 
-\item{pairwise_method}{string. \code{lts} or \code{mode}}
+\item{pairwise_method}{string. \code{lts} (Least Trimmed Squares regression)
+or \code{mode}}
 
 \item{single_param}{logical. single parameter form (scaling) or double paramter
 form (non-linear)}
@@ -29,7 +30,7 @@ all samples}
 \item{maxiter}{ingeter. the maximum number of iterations
 in the median polish.}
 
-\item{workers}{integer. the number of nodes in the parallel cluster.}
+\item{workers}{integer. the number of nodes in the parallel cluster (\code{snow}).}
 
 \item{...}{additional parameters passing on to \code{pairwise_method}}
 }
@@ -40,9 +41,9 @@ depends \code{res_return}
 MUltiple REference Normalizer (MUREN) of RNA-seq counts.
 }
 \details{
-The \code{reads} should be a tabular format that contains each sample
+The \code{reads} should be a tabular type that contains each sample
 in the columns. Columns of non-numeric annotations are kept in the
-returned values. Note than all the numeric columns all treated as samples.
+returned values. Notice than all the numeric columns all treated as samples.
 
 You can specify reference samples with their names (column names of \code{reads}),
 or the order indices, e.g., \code{1:3} means the first 3 samples. Or, take all
