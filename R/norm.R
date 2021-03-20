@@ -8,12 +8,13 @@
 #' muren_norm(reads, refs = 'saturated', single_param = TRUE,
 #'   pairwise_method = 'lts', maxiter = 70, workers = 2, ...)
 #'
-#' @param reads data.frame or matrix. A tabular counts of gene/transcript
+#' @param reads data.frame or matrix. A tabular counts of gene/transcript X sample
 
-#' @param refs name characters or integers of sample orders of reference samples.
+#' @param refs reference samples by name characters or integers of sample orders.
 #'   Or, 'saturated' selects all samples as references.
 #'
-#' @param pairwise_method string. \code{lts} or \code{mode}
+#' @param pairwise_method string. \code{lts} (Least Trimmed Squares regression) 
+#'   or \code{mode}
 #' @param single_param logical. single parameter form (scaling) or double paramter
 #' form (non-linear)
 #' @param res_return type of values returned. \code{counts} (normalized counts),
@@ -23,13 +24,13 @@
 #'   all samples
 #' @param maxiter ingeter. the maximum number of iterations
 #'   in the median polish.
-#' @param workers integer. the number of nodes in the parallel cluster.
+#' @param workers integer. the number of nodes in the parallel cluster (\code{snow}).
 #' @param ... additional parameters passing on to \code{pairwise_method}
 #'
 #' @details
-#' The \code{reads} should be a tabular format that contains each sample
+#' The \code{reads} should be a tabular type that contains each sample
 #' in the columns. Columns of non-numeric annotations are kept in the
-#' returned values. Note than all the numeric columns all treated as samples.
+#' returned values. Notice than all the numeric columns all treated as samples.
 #'
 #' You can specify reference samples with their names (column names of \code{reads}),
 #' or the order indices, e.g., \code{1:3} means the first 3 samples. Or, take all
