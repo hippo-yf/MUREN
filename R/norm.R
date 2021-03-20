@@ -65,10 +65,13 @@
 #' @include utils.R
 #' @import doSNOW
 #' @import foreach
+#' @import parallel
 #' @importFrom MASS ltsreg
 #' @importFrom matrixStats rowMaxs
 #' @import magrittr
 #' @importFrom assertthat assert_that
+#' @importFrom iterators iter
+#'
 #' @rdname muren_norm
 #' @name muren_norm
 
@@ -291,11 +294,11 @@ muren_norm <- function(reads,
     )))
 
   # regressions in parallel
-  cl <- makeCluster(workers, type = "SOCK")
-  registerDoSNOW(cl)
+  cl <- parallel::makeCluster(workers, type = "SOCK")
+  doSNOW::registerDoSNOW(cl)
 
   coeffs <-  foreach::foreach(
-    task = iter(task_quene),
+    task = iterators::iter(task_quene),
     .packages = c("MASS"),
     .combine = cbind,
     .export = c("log_reads_df", "reg_sp", "reg_dp", "mode_sp")
@@ -379,7 +382,7 @@ muren_norm <- function(reads,
 
 
   }
-  stopCluster(cl)
+  parallel::stopCluster(cl)
 
 
   if(single_param){

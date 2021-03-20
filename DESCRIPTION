@@ -19,7 +19,8 @@ Imports:
     iterators,
     magrittr,
     MASS,
-    matrixStats
+    matrixStats,
+    parallel
 Collate: 
     'utils.R'
     'norm.R'
