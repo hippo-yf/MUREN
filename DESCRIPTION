@@ -16,6 +16,7 @@ Depends:
     iterators,
     magrittr,
     MASS,
+    matrixStats,
     R (>= 2.10)
 Collate: 
     'utils.R'
