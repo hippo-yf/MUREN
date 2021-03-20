@@ -11,13 +11,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Depends:
+    R (>= 2.10)
+Imports:
     doSNOW,
     assertthat,
     iterators,
     magrittr,
     MASS,
-    matrixStats,
-    R (>= 2.10)
+    matrixStats
 Collate: 
     'utils.R'
     'norm.R'
