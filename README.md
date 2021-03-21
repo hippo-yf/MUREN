@@ -16,7 +16,7 @@ We propose to carry out pairwise normalization with respect to multiple referenc
 
 ## Dependencies
 
-- R (>= R.4.0.2)
+- R (>= 4.0.2)
 - assertthat (>= 0.2.1)
 - doSNOW (>=1.0.18)
 - iterators (>=1.0.12)
