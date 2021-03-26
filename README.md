@@ -32,11 +32,11 @@ A rat toxicogenomics RNA-seq data
 
 normalzied counts
 
-`thi_norm = muren(rat_tox_thi)`
+`thi_norm = muren_norm(rat_tox_thi)`
 
 library sizes (scaling coefficients)
 
-`(thi_coeff = muren(rat_tox_thi, res_return = 'library_size'))`
+`(thi_coeff = muren_norm(rat_tox_thi, res_return = 'library_size'))`
 
 ## Citation
 
