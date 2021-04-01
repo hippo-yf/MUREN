@@ -30,7 +30,7 @@ A rat toxicogenomics RNA-seq data
 
 `data(rat_tox_thi)`
 
-normalzied counts
+normalized counts
 
 `thi_norm = muren_norm(rat_tox_thi)`
 
