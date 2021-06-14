@@ -56,7 +56,7 @@ The data `rat_tox_thi` has 3 treatment and control samples respectively
 
 ```R
 library(edgeR)
-group = rep(c('treatment', 'control'), each = 3)`
+group = rep(c('treatment', 'control'), each = 3)
 thi_de = DGEList(counts = rat_tox_thi[-1], genes = rat_tox_thi[1], group = group)
 ```
 
