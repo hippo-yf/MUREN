@@ -1,5 +1,5 @@
-#' An Accurate RNA-seq Transcript Quantification Method
-#' Preserving Biological Asymmetric Differentiation
+#' MUREN: a Robust and Multi-reference Approach of RNA-seq
+#' Transcript Normalization
 #'
 #'
 #' MUltiple REference Normalizer (MUREN) of RNA-seq counts.
@@ -18,7 +18,7 @@
 #' @param single_param logical. single parameter form (scaling) or double paramter
 #' form (non-linear)
 #' @param res_return type of values returned. \code{counts} (normalized counts),
-#'   \code{log_counts} (log2 (normalized counts + 1)), or \code{library_size} (scaling
+#'   \code{log_counts} (log2 (normalized counts + 1)), or \code{scaling_coeff} (scaling
 #'   coefficients, valid when \code{single_param = TRUE})
 #' @param trim numeric. trim genes with counts less than \code{trim} in
 #'   all samples
@@ -42,25 +42,31 @@
 #' (\code{single_param = FALSE}) (slower) is a non-linear (power function)
 #' normalization.
 #'
-#' The returned library_size (\code{res_return = 'library_size'}) should divide
+#' The returned scaling coeff (\code{res_return = 'scaling_coeff'}) should divide
 #' the raw read counts to get normalized counts. Never re-adjust it by total sample
-#' counts or other qualities.
+#' counts or other quantities.
 #'
 #' Parallel computation is implemented with \code{doSNOW} and its dependencies.
 #'
 #' @return depends \code{res_return}
 #'
 #' @examples
-#' ## A rat toxicogenomics RNA-seq data
+#' # A rat toxicogenomics RNA-seq data
+#' # from Munro et al (2014)
 #'
 #' data(rat_tox_thi)
 #'
-#' # normalzied counts
+#' # normalized counts (raw scale)
 #' thi_norm = muren_norm(rat_tox_thi)
 #'
-#' # library sizes (scaling coefficients)
-#' (thi_coeff = muren_norm(rat_tox_thi, res_return = 'library_size'))
+#' # scaling coefficients
+#' (thi_coeff = muren_norm(rat_tox_thi, res_return = 'scaling_coeff'))
 #'
+#' @references
+#' Munro SA, Lund SP, Pine PS, et al. Assessing technical
+#' performance in differential gene expression experiments with
+#' external spike-in RNA control ratio mixtures. Nat Commun.
+#' 2014;5:5125. doi:10.1038/ncomms6125
 #'
 #' @include utils.R
 #' @import doSNOW
@@ -397,7 +403,7 @@ muren_norm <- function(reads,
     coef_sp = 2^(as.vector(coef_sp))
     names(coef_sp) = colnames(reads)
 
-    if(res_return == 'library_size'){
+    if(res_return == 'scaling_coeff'){
 
       return(1/coef_sp)
     }
