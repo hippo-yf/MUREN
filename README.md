@@ -73,7 +73,7 @@ t= thi_coeff/thi_de$samples$lib.size
 factors_muren = t/median(t)*median(thi_de$samples$norm.factors)
 ```
 
-The plot is a comparison. They may not have much difference when the transcriptional differentiation is symmetric.
+The plot is a comparison, where the line is identical $y=x$ . They may not have much difference when the transcriptional differentiation is symmetric.
 
 <img src=normfactors.png width="80%">
 
