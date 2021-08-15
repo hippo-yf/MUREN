@@ -104,8 +104,7 @@ topTags(lrt)
 ```
 
 ## Citation
-
-Publishing
+Feng, Y., Li, L.M. MUREN: a robust and multi-reference approach of RNA-seq transcript normalization. BMC Bioinformatics 22, 386 (2021). https://doi.org/10.1186/s12859-021-04288-0
 
 ## References
 
