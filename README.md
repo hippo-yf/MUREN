@@ -14,7 +14,6 @@ We propose to carry out pairwise normalization with respect to multiple referenc
 
 MUREN performs the RNA-seq normalization using a two-step statistical regression induced from a general principle. We propose that the densities of pairwise differentiations are used to evaluate the goodness of normalization. MUREN adjusts the mode of differentiation toward zero while preserves the skewness due to biological asymmetric differentiation. Moreover, by robustly integrating pre-normalized counts with respect to multiple reference, MUREN is immune to individual outlier samples.
 
-
 ## Installation
 
 `remotes::install_github("hippo-yf/MUREN")`
@@ -35,16 +34,17 @@ A rat toxicogenomics RNA-seq data
 from Munro et al (2014)
 
 ```R
+library(MUREN)
 data(rat_tox_thi)
 ```
 
-normalized counts
+Normalized counts
 
 ```R
 thi_norm = muren_norm(rat_tox_thi)
 ```
 
-scaling coefficients
+or, scaling coefficients
 
 ```R
 (thi_coeff = muren_norm(rat_tox_thi, res_return = 'scaling_coeff'))
@@ -66,14 +66,14 @@ thi_de = DGEList(counts = rat_tox_thi[-1], genes = rat_tox_thi[1], group = group
 thi_de = calcNormFactors(thi_de)
 ```
 
-`norm.factos` by MUREN (coerce the median same with that of TMM)
+`norm.factos` by MUREN (coerce the median same with that of TMM, the re-adjustment here is only used for comparison)
 
 ```R
-t= thi_coeff/thi_de$samples$lib.size
-factors_muren = t/median(t)*median(thi_de$samples$norm.factors)
+factors_muren = thi_coeff/thi_de$samples$lib.size
+factors_muren_adj = factors_muren/median(factors_muren)*median(thi_de$samples$norm.factors)
 ```
 
-The plot is a comparison, where the line is identical $y=x$ . They may not have much difference when the transcriptional differentiation is symmetric.
+The plot shows the comparison, where the line is identical $y=x$. They may not have much difference when the transcriptional differentiation is symmetric.
 
 <img src=normfactors.png width="80%">
 
@@ -104,7 +104,8 @@ topTags(lrt)
 ```
 
 ## Citation
-Feng, Y., Li, L.M. MUREN: a robust and multi-reference approach of RNA-seq transcript normalization. BMC Bioinformatics 22, 386 (2021). https://doi.org/10.1186/s12859-021-04288-0
+
+Feng, Y., Li, L.M. MUREN: a robust and multi-reference approach of RNA-seq transcript normalization. BMC Bioinformatics 22, 386 (2021). <https://doi.org/10.1186/s12859-021-04288-0>
 
 ## References
 
@@ -113,7 +114,6 @@ Munro SA, Lund SP, Pine PS, et al. Assessing technical performance in differenti
 Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package for differential expression analysis of digital gene expression data. Bioinformatics. 2010;26(1):139-140.
 
 McCarthy DJ, Chen Y, Smyth GK. Differential expression analysis of multifactor RNA-Seq experiments with respect to biological variation. Nucleic Acids Res. 2012;40(10):4288-4297.
-
 
 ## Licence
 
