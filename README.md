@@ -66,7 +66,7 @@ thi_de = DGEList(counts = rat_tox_thi[-1], genes = rat_tox_thi[1], group = group
 thi_de = calcNormFactors(thi_de)
 ```
 
-`norm.factos` by MUREN (coerce the median same with that of TMM, the re-adjustment here is only used for comparison)
+`norm.factos` by MUREN (coerce the median same with that of TMM, **the re-adjustment here is only used for comparison**)
 
 ```R
 factors_muren = thi_coeff/thi_de$samples$lib.size
