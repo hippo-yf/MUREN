@@ -24,10 +24,13 @@ form (non-linear)}
 \code{log_counts} (log2 (normalized counts + 1)), or \code{scaling_coeff} (scaling
 coefficients, valid when \code{single_param = TRUE})}
 
-\item{trim}{numeric. trim genes with counts less than \code{trim} in
+\item{filter_gene}{logical. whether filter genes with rare raw counts, the filter
+strategy simply filters genes with the maximum count less than \code{trim}}
+
+\item{trim}{numeric. filter genes with counts less than \code{trim} in
 all samples}
 
-\item{maxiter}{ingeter. the maximum number of iterations
+\item{maxiter}{integer. the maximum number of iterations
 in the median polish.}
 
 \item{workers}{integer. the number of nodes in the parallel cluster (\code{snow}).}

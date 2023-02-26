@@ -2,6 +2,7 @@
 
 #' @importFrom magrittr %>%
 #' @importFrom magrittr not
+#' @import matrixStats
 #'
 #'
 
@@ -16,6 +17,11 @@ is.wholenumber <-
 
 lg <- function(x) log2(1 + x)
 ep <- function(x) 2**x - 1
+
+filter_gene_l <- function(reads, trim){
+
+  rowMaxs(reads) >= trim
+}
 
 
 # single parameter regression
@@ -36,15 +42,20 @@ reg_sp <- function(
 
 # mode
 mode_sp <- function(s_k, s_r, ...){
-  d = density(s_r - s_k)
+  d = density(s_r - s_k, ...)
   d$x[which.max(d$y)]
 }
+
+# pairwise regressions return fitted values
+# it is expansive
+# except the sp case
+
 
 # double parameter regression
 
 reg_dp <- function(s_k, s_r, ...) {
 
-  ltsreg(s_r ~ s_k, ...)$coefficients
+  ltsreg(s_r ~ s_k, ...)$fitted.values
 
 }
 
@@ -54,11 +65,11 @@ get_tasks <- function(k, reg_wapper, refs) {
   parse(
     text = paste(
       reg_wapper,
-      "(log_reads_df[[",
+      "(log_raw_reads_mx[, ",
       k ,
-      "]],log_reads_df[[",
+      "],log_raw_reads_mx[, ",
       refs,
-      ']], ...)',
+      '], ...)',
       collapse = '\n',
       sep = ''
     )
@@ -66,9 +77,9 @@ get_tasks <- function(k, reg_wapper, refs) {
 }
 
 
-polish_one_gene <-
-  function(raw_n,         # raw (log) expr of nth-gene
-           fitted_n,       # fitted expr in the regression
+polish_coeff <-
+  function(
+           fitted_n,       # scaling coeff
            n_exp,          # number of experiments
            locations,      # line to matrix
            unused_refs,    # samples don't act as refs
@@ -81,7 +92,7 @@ polish_one_gene <-
     rs_mx[locations] = fitted_n
 
     # pad the diagonals
-    rs_mx[seq.int(1, n_exp ^ 2, n_exp + 1)] = raw_n
+    # rs_mx[seq.int(1, n_exp ^ 2, n_exp + 1)] = raw_n
 
 
     # remove unused refs (rows)
@@ -99,3 +110,32 @@ polish_one_gene <-
 
   }
 
+polish_one_gene <-
+  # function(n) { # n-gene
+  function(
+    # raw_n,         # raw (log) expr of nth-gene
+    fitted_n,       # fitted expr in the regression
+    n_exp,          # number of experiments
+    locations,      # line to matrix
+    unused_refs,    # samples don't act as refs
+    maxiter         # max iteration
+  ) {
+
+  # rearrangement
+  rs_mx = matrix(NA, nrow = n_exp, ncol = n_exp)
+  rs_mx[locations] = fitted_n
+
+  # pad the diagonals
+  # rs_mx[seq.int(1, n_exp ^ 2, n_exp + 1)] = log_reads_mx[n,]
+
+  # remove unused refs (rows)
+  if (length(unused_refs) > 0)
+    rs_mx = rs_mx[-unused_refs,]
+
+  # medpolish
+  m = medpolish(rs_mx, na.rm = TRUE, trace.iter = FALSE, maxiter = maxiter)
+
+  # return polished sample (column) effects
+  m$overall + m$col
+
+}
