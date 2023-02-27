@@ -5,8 +5,18 @@
 \title{MUREN: a Robust and Multi-reference Approach of RNA-seq
 Transcript Normalization}
 \usage{
-muren_norm(reads, refs = 'saturated', single_param = TRUE,
-  pairwise_method = 'lts', maxiter = 70, workers = 2, ...)
+muren_norm(
+  reads,
+  refs = "saturated",
+  pairwise_method = "lts",
+  single_param = TRUE,
+  res_return = "counts",
+  filter_gene = TRUE,
+  trim = 10,
+  maxiter = 70,
+  workers = 2,
+  ...
+)
 }
 \arguments{
 \item{reads}{data.frame or matrix. A tabular counts of gene/transcript X sample}
@@ -22,7 +32,7 @@ form (non-linear)}
 
 \item{res_return}{type of values returned. \code{counts} (normalized counts),
 \code{log_counts} (log2 (normalized counts + 1)), or \code{scaling_coeff} (scaling
-coefficients, valid when \code{single_param = TRUE})}
+coefficients (counterpart of library size), valid when \code{single_param = TRUE})}
 
 \item{filter_gene}{logical. whether filter genes with rare raw counts, the filter
 strategy simply filters genes with the maximum count less than \code{trim}}
@@ -58,9 +68,10 @@ or \code{mode} are applicable. Double parameter form
 (\code{single_param = FALSE}) (slower) is a non-linear (power function)
 normalization.
 
-The returned scaling coeff (\code{res_return = 'scaling_coeff'}) should divide
+The returned scaling coeff (\code{res_return = 'scaling_coeff'}), which is
+counterpart of library size, should divide
 the raw read counts to get normalized counts. Never re-adjust it by total sample
-counts or other quantities.
+counts or other numbers
 
 Parallel computation is implemented with \code{doSNOW} and its dependencies.
 }
@@ -73,8 +84,13 @@ data(rat_tox_thi)
 # normalized counts (raw scale)
 thi_norm = muren_norm(rat_tox_thi)
 
-# scaling coefficients
+# scaling coefficient is a counterpart of library size
 (thi_coeff = muren_norm(rat_tox_thi, res_return = 'scaling_coeff'))
+
+# normalize manually
+thi_norm2 = cbind(rat_tox_thi[1],
+              as.matrix(rat_tox_thi[-1]) \%*\% diag(1/thi_coeff)
+            )
 
 }
 \references{
