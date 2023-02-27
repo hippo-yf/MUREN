@@ -122,13 +122,13 @@ GPL-3
 
 ## Change Logs
 
-### version 0.2.2 (2023-02-27)
+### version 0.2.0 (2023-02-27)
 
 - fix bug of double parameter model
 - fix bug of input data type
 - optimize memory usage
 
-### version 0.1.0 (2021)
+### version 0.1.0 (2021-05)
 
 - first release
 
