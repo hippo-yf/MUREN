@@ -267,8 +267,8 @@ muren_norm <- function(reads,
     )))
 
   # regressions in parallel
-  cl <- makeCluster(workers, type = "SOCK")
-  registerDoSNOW(cl)
+  cl <- parallel::makeCluster(workers, type = "SOCK")
+  doSNOW::registerDoSNOW(cl)
 
   res_pairwise <-  foreach(
     task = iter(task_quene),
@@ -353,7 +353,7 @@ muren_norm <- function(reads,
 
 
   }
-  stopCluster(cl)
+  parallel::stopCluster(cl)
 
 
   if(single_param){
@@ -367,7 +367,7 @@ muren_norm <- function(reads,
     coef_sp = 2^(as.vector(coef_sp))
     names(coef_sp) = colnames(reads)
 
-    if(res_return == 'library_size'){
+    if(res_return == 'scaling_coeff'){
 
       return(1/coef_sp)
     }

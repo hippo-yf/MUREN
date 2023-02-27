@@ -2,7 +2,6 @@
 
 #' @importFrom magrittr %>%
 #' @importFrom magrittr not
-#' @import matrixStats
 #'
 #'
 
