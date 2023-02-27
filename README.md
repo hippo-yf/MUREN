@@ -118,3 +118,16 @@ McCarthy DJ, Chen Y, Smyth GK. Differential expression analysis of multifactor R
 ## Licence
 
 GPL-3
+
+
+## Change Logs
+
+### version 0.2.2 (2023-02-27)
+
+- fix bug of double parameter model
+- fix bug of input data type
+- optimize memery
+
+### version 0.1.0 (2021)
+
+- first release
