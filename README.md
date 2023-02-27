@@ -124,7 +124,7 @@ GPL-3
 
 ### version 0.2.0 (2023-02-27)
 
-- fix bug of double parameter model
+- fix bug of double-parameter model
 - fix bug of input data type
 - optimize memory usage
 
